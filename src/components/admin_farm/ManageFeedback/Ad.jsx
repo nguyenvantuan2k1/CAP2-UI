@@ -8,6 +8,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Popup from './Popup';
 import Pagination from '../share/Pagination/Pagination';
+import { Button, Modal } from 'antd';
 
 import _ from 'lodash';
 let PageSize = 3;
@@ -22,6 +23,7 @@ const Ad = (props) => {
     const [fbList, setFbList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [popupData, setPopupData] = useState({});
+    const [open, setOpen] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             const radioResponse = await axios.get(feedbackRadioUrl);
@@ -34,7 +36,10 @@ const Ad = (props) => {
             console.log((radioResponse.data.positive * 100).toFixed(2));
 
             const fblistRespone = await axios.get(fbListUrl);
-            setFbList(fblistRespone.data);
+            setFbList(
+fblistRespone.data
+
+);
 
             const firstPageIndex = (currentPage - 1) * PageSize;
             const lastPageIndex = firstPageIndex + PageSize;
@@ -59,6 +64,7 @@ const Ad = (props) => {
     else image = Neu;
     function openPopup() {
         setPopupData(feedback);
+        setOpen(true);
         setIsPopupOpen(true);
         const overlay = document.querySelector('.overlay');
         overlay.classList.add('overlayActive');
@@ -73,7 +79,10 @@ const Ad = (props) => {
     function viewAll() {
         const fetchData = async () => {
             const response = await axios.get(fbListUrl);
-            const dataset = response.data;
+            const dataset = 
+response.data
+
+;
             const firstPageIndex = (currentPage - 1) * PageSize;
             const lastPageIndex = firstPageIndex + PageSize;
             setCurentFb(dataset.slice(firstPageIndex, lastPageIndex));
@@ -98,75 +107,87 @@ const Ad = (props) => {
                 <button className="viewPopup" onClick={openPopup}>
                     Xem chi tiết
                 </button>
-                {isPopupOpen && (
-                    <div>
-                        <Popup
-                            content={
-                                <div className="popup_product">
-                                    <div className="popup_product_header">{popupData.productName}</div>
-                                    <div className="popup_product_content">
-                                        <img className="popup_product_img" src={popupData.productImg} alt="" />
-                                        <div className="popup_product_description">
-                                            <div>Đơn vị tính: {popupData.productUnit}</div>
-                                            <div>Nơi sản xuất: {popupData.productpPaceProduce}</div>
-                                            <div>Giá: {popupData.productPrice}</div>
-                                            <div className="popup_product_des">{popupData.productDescription}</div>
-                                        </div>
-                                    </div>
-                                    <div className="popup_product_feedback">
-                                        <div className="popup_product_feedback_title">Tỉ lệ phản hồi:</div>
-                                        <div className="popup_product_feedback_radio">
-                                            <div className="green">Tích cực: {feedbackRadio.positive} %</div>
-                                            <div className="red">Tiêu cực: {feedbackRadio.negative} %</div>
-                                            <div className="blue">Trung tính: {feedbackRadio.neutral} %</div>
-                                        </div>
-                                    </div>
-                                    <div className="">
-                                        {currentFb
-                                            ? currentFb.map((item, index) => (
-                                                  <div className="popup_product_feedback_content">
-                                                      <div className="popup_product_fb_item display_flex">
-                                                          <div className="popup_product_fb_item_icon">
-                                                              <i class="fa-regular fa-user"></i>
-                                                          </div>
-                                                          <div className="popup_product_fb_item_content">
-                                                              <div className="display_flex">
-                                                                  <div className="fb_user_name">{item.userName}</div>
-                                                                  <div className="">
-                                                                      <ul className="fb_star">
-                                                                          {_.times(item.star, (i) => (
-                                                                              <li className="star_item" key={i}>
-                                                                                  <i className="fas fa-star small text-warning"></i>
-                                                                              </li>
-                                                                          ))}
-                                                                      </ul>
-                                                                  </div>
-                                                              </div>
-                                                              <div>{item.contents}</div>
-                                                          </div>
-                                                      </div>
-                                                  </div>
-                                              ))
-                                            : ''}
-                                        <div className="pagination_line paginationfb ">
-                                            <Pagination
-                                                className="pagination-bar"
-                                                currentPage={currentPage}
-                                                totalCount={fbList.length}
-                                                pageSize={PageSize}
-                                                onPageChange={(page) => setCurrentPage(page)}
-                                            />
-                                        </div>
+
+                <div>
+                    <Modal
+                        title={popupData.productName}
+                        centered
+                        open={open}
+                        onOk={() => setOpen(false)}
+                        onCancel={() => setOpen(false)}
+                        width={1000}
+                        bodyStyle={{height: 550}} 
+                    >
+                        <div>
+                            <div className="popup_product">
+                                {/* <div className="popup_product_header">{popupData.productName}</div> */}
+                                <div className="popup_product_content">
+                                    <img className="popup_product_img" src={popupData.productImg} alt="" />
+                                    <div className="popup_product_description">
+                                        <div>Đơn vị tính: {popupData.productUnit}</div>
+                                        <div>Nơi sản xuất: {popupData.productpPaceProduce}</div>
+                                        <div>Giá: {popupData.productPrice}</div>
+                                        <div className="popup_product_des">{popupData.productDescription}</div>
                                     </div>
                                 </div>
-                            }
-                            closePopup={closePopup}
-                        />
-                    </div>
-                )}
+                                <div className="popup_product_feedback">
+                                    <div className="popup_product_feedback_title">Tỉ lệ phản hồi:</div>
+                                    <div className="popup_product_feedback_radio">
+                                        <div className="green">Tích cực: {feedbackRadio.positive} %</div>
+                                        <div className="red">Tiêu cực: {feedbackRadio.negative} %</div>
+                                        <div className="blue">Trung tính: {feedbackRadio.neutral} %</div>
+                                    </div>
+                                </div>
+                                <div className="">
+                                    {currentFb
+                                        ? 
+currentFb.map
+
+((item, index) => (
+                                              <div className="popup_product_feedback_content">
+                                                  <div className="popup_product_fb_item display_flex">
+                                                      <div className="popup_product_fb_item_icon">
+                                                          <i class="fa-regular fa-user"></i>
+                                                      </div>
+                                                      <div className="popup_product_fb_item_content">
+                                                          <div className="display_flex">
+                                                              <div className="fb_user_name">{item.userName}</div>
+                                                              <div className="">
+                                                                  <ul className="fb_star">
+                                                                      {_.times(
+item.star
+
+, (i) => (
+                                                                          <li className="star_item" key={i}>
+                                                                              <i className="fas fa-star small text-warning"></i>
+                                                                          </li>
+                                                                      ))}
+                                                                  </ul>
+                                                              </div>
+                                                          </div>
+                                                          <div>{item.contents}</div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          ))
+                                        : ''}
+                                    <div className="pagination_line paginationfb ">
+                                        <Pagination
+                                            className="pagination-bar"
+                                            currentPage={currentPage}
+                                            totalCount={fbList.length}
+                                            pageSize={PageSize}
+                                            onPageChange={(page) => setCurrentPage(page)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Modal>
+                </div>
             </div>
         </div>
     );
 };
 
-export default Ad;
+export default Ad; 
