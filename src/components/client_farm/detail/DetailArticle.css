@@ -1,0 +1,46 @@
+.news_suggest_inpage {
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.expNoEdit {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.expEdit {
+    font-size: 14px;
+}
+
+.wp-caption-text {
+    font-size: 14px;
+}
+
+figure {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.aligncenter {
+    text-align: center;
+    /* display: flex; */
+    margin: 0 auto;
+}
+
+.DetailBanner {
+    background-image: url('https://bom.so/fd4VQ7');
+    height: 300px;
+    width: 100%;
+}
+
+.figcaption {
+    display: inline-block;
+    justify-content: center;
+    margin: 6px 0;
+}
+
+.separator {
+    text-align: center;
+}

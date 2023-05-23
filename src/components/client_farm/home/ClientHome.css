@@ -1,0 +1,11 @@
+.news {
+    display: flex;
+    /* width: 90%; */
+    margin: 0 auto;
+    background-color: #ededed;
+}
+
+.Home_container {
+    /* margin: 0 40px; */
+    padding: 0 80px;
+}

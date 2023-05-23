@@ -1,0 +1,62 @@
+.infor_container {
+    width: 100%;
+    padding: 0 20px;
+    display: block;
+    background-color: rgb(225, 216, 40);
+}
+.menu ul li{
+    width: auto;
+    border: none;   
+    display: flex;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+}
+.col-2 {
+    width: 50%;
+    border: 1 solid #000;
+    padding: 0 8px;
+}
+
+.menu {
+    background-color: rgb(197, 179, 13);
+    width: 250px;
+}
+
+.infor_main {
+    display: flex;
+}
+
+.row {
+    min-height: 20px;
+    width: 100%;
+    justify-content: space-around;
+    margin-right: 0;
+}
+.listarticle {
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
+
+.section_title_inf {
+    font-size: 26px;
+    color: #000;
+    text-transform: uppercase;
+    padding-top: 16px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-decoration: underline;
+}
+
+.listarticle-policy {
+    width: 900px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.PolicyRow {
+    justify-content: space-between;
+}
