@@ -126,6 +126,7 @@ function HealthPlant() {
                 setRawData((prev) => [...prev, dataTranslated]);
             });
         }
+        console.log(result);
     }, [result]);
 
     useEffect(() => {
@@ -174,7 +175,7 @@ function HealthPlant() {
                             </label>
                         </Form.Group>
                     </Row>
-                    {translateData?.map((data, index) => (
+                    {result?.is_healthy===false && translateData?.map((data, index) => (
                         <Row bg={'Light'} className="justify-content-center mb-0">
                             <Col md="20" lg="7">
                                 <Card className="shadow-0 border rounded-3 mt-2 mb-3">
@@ -243,6 +244,8 @@ function HealthPlant() {
                             </Col>
                         </Row>
                     ))}
+                    {result?.is_healthy===true && <Row bg={'Light'} className="justify-content-center mb-0"><Card className="shadow-0 border rounded-3 mt-2 mb-3"><Card.Body><h4 style={{textAlign:"center" }}>Thông qua hình ảnh bạn cung cấp, chúng tôi cho rằng cây của bạn đang rất khỏe mạnh</h4></Card.Body>
+                                </Card></Row>}
                 </div>
             </div>
         </div>
