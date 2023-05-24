@@ -19,7 +19,6 @@ function ProductDetail(props) {
         const fetchData = async () => {
             const response = await axios.get(feedbackUrl);
             const filter = response.data.result.filter((item) => item['productId'] === Number(id));
-
             setFeedbacks(filter);
             // console.log("rp:", response.data.result);
         };
@@ -52,9 +51,7 @@ function ProductDetail(props) {
     useEffect(() => {
         const fetchData = async () => {
             const response = await productAPI.getDetail(id);
-            setDetail(
-                response.data
-            );
+            setDetail(response.data);
             // console.log(response.data.inventoryNumber);
             // if (response.data.inventoryNumber === 0) {
             //     const btns = document.getElementById(`btnAdd`);
@@ -81,9 +78,7 @@ function ProductDetail(props) {
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get(cartUrl);
-            const data =
-                response.data
-                ;
+            const data = response.data;
             if (user) {
                 const userId = user.userId;
                 const filter = data.filter((item) => item['userId'] === userId);
@@ -121,9 +116,7 @@ function ProductDetail(props) {
         };
         console.log('newcarts', newCart);
         try {
-
-            axios.post
-                (cartUrl, newCart);
+            axios.post(cartUrl, newCart);
             alert('Thêm vào giỏi hàng thành công!');
         } catch (err) {
             alert('Có lỗi, xin vui lòng thử lại!');
@@ -133,8 +126,7 @@ function ProductDetail(props) {
     function UpdateProductToCart(userId, cart) {
         cart.quantity = Number(cart.quantity) + Number(text);
         try {
-            axios.put(`${cartUrl}/${cart.id
-                }`, cart);
+            axios.put(`${cartUrl}/${cart.id}`, cart);
             alert('Cập nhập lại số lượng');
         } catch (err) {
             alert('Có lỗi, xin vui lòng thử lại!');
@@ -157,9 +149,7 @@ function ProductDetail(props) {
 
     function BuyNowHandler() {
         const checkedList = [];
-        checkedList.push(
-            detail.id
-        );
+        checkedList.push(detail.id);
         console.log(checkedList);
         localStorage.removeItem('checked');
         localStorage.setItem('checked', checkedList);
@@ -178,9 +168,7 @@ function ProductDetail(props) {
             image: detail.image1,
         };
         try {
-
-            axios.post
-                (cartUrl, newCart);
+            axios.post(cartUrl, newCart);
         } catch (err) {
             alert('Có lỗi, xin vui lòng thử lại!');
         }
@@ -189,8 +177,7 @@ function ProductDetail(props) {
     function UpdateProductToCart2(userId, cart) {
         cart.quantity = Number(cart.quantity) + Number(text);
         try {
-            axios.put(`${cartUrl}/${cart.id
-                }`, cart);
+            axios.put(`${cartUrl}/${cart.id}`, cart);
         } catch (err) {
             alert('Có lỗi, xin vui lòng thử lại!');
         }
@@ -306,7 +293,7 @@ function ProductDetail(props) {
                             <div className={feedbacks.length !== 0 ? 'section_title' : 'section_title hiden_btn'}>
                                 Phản hồi của khách hàng
                             </div>
-                            <List
+                            {/* <List
                                 size="small"
                                 style={{
                                     background: '#FFFFF',
@@ -322,7 +309,6 @@ function ProductDetail(props) {
                                     height={400}
                                     itemHeight={47}
                                     itemKey="email"
-                                    // onScroll={onScroll}
                                 >
                                     {(feedback, index) => (
                                         <div className="feedback_row" key={index} style={{}}>
@@ -348,7 +334,30 @@ function ProductDetail(props) {
                                         </div>
                                     )}
                                 </VirtualList>
-                            </List>
+                            </List> */}
+                            <div style={{ height: '300px', scrollBehavior: 'smooth', overflowY: 'scroll' }}>
+                                {feedbacks
+                                    ? feedbacks.map((feedback, index) => (
+                                          <div className="feedback_row" key={index}>
+                                              <div className="feedback_detail">
+                                                  <div className="feedback_detail_header">
+                                                      <div className="feedback_user">{feedback.userName}</div>
+                                                      <div className="feedback_start">
+                                                          <ul className="list-inline mb-2">
+                                                              {_.times(feedback.star, (i) => (
+                                                                  <li className="list-inline-item m-0 " key={i}>
+                                                                      <i className="fas fa-star small text-warning"></i>
+                                                                  </li>
+                                                              ))}
+                                                          </ul>
+                                                      </div>
+                                                  </div>
+                                                  <div className="feedback_content">{feedback.contents}</div>
+                                              </div>
+                                          </div>
+                                      ))
+                                    : ''}
+                            </div>
                         </div>
                         <div className="related_product">
                             <div className="section_title">Có thể bạn quan tâm</div>
@@ -374,4 +383,4 @@ function ProductDetail(props) {
     );
 }
 
-export default ProductDetail; 
+export default ProductDetail;
