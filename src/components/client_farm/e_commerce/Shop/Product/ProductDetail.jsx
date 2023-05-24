@@ -1,4 +1,4 @@
-import { Layout } from 'antd';
+import { Layout, List } from 'antd';
 import axios from 'axios';
 import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import productAPI from '../../../../../apis/productAPI';
 import NewHeader from '../../../share/newheader/NewHeader';
 import Product from './Product';
+import VirtualList from 'rc-virtual-list';
 
 function ProductDetail(props) {
     //id params cho từng sản phẩm
@@ -17,9 +18,10 @@ function ProductDetail(props) {
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get(feedbackUrl);
-            const filter = response.data.filter((item) => item['productId'] === Number(id));
+            const filter = response.data.result.filter((item) => item['productId'] === Number(id));
+
             setFeedbacks(filter);
-            console.log(filter);
+            // console.log("rp:", response.data.result);
         };
         fetchData();
     }, []);
@@ -50,7 +52,9 @@ function ProductDetail(props) {
     useEffect(() => {
         const fetchData = async () => {
             const response = await productAPI.getDetail(id);
-            setDetail(response.data);
+            setDetail(
+                response.data
+            );
             // console.log(response.data.inventoryNumber);
             // if (response.data.inventoryNumber === 0) {
             //     const btns = document.getElementById(`btnAdd`);
@@ -77,7 +81,9 @@ function ProductDetail(props) {
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get(cartUrl);
-            const data = response.data;
+            const data =
+                response.data
+                ;
             if (user) {
                 const userId = user.userId;
                 const filter = data.filter((item) => item['userId'] === userId);
@@ -89,6 +95,7 @@ function ProductDetail(props) {
         fetchData();
     }, []);
 
+    console.log(feedbacks);
     function AddToCartHandler() {
         if (user === null) navigate('/login');
         else {
@@ -114,7 +121,9 @@ function ProductDetail(props) {
         };
         console.log('newcarts', newCart);
         try {
-            axios.post(cartUrl, newCart);
+
+            axios.post
+                (cartUrl, newCart);
             alert('Thêm vào giỏi hàng thành công!');
         } catch (err) {
             alert('Có lỗi, xin vui lòng thử lại!');
@@ -124,7 +133,8 @@ function ProductDetail(props) {
     function UpdateProductToCart(userId, cart) {
         cart.quantity = Number(cart.quantity) + Number(text);
         try {
-            axios.put(`${cartUrl}/${cart.id}`, cart);
+            axios.put(`${cartUrl}/${cart.id
+                }`, cart);
             alert('Cập nhập lại số lượng');
         } catch (err) {
             alert('Có lỗi, xin vui lòng thử lại!');
@@ -147,7 +157,9 @@ function ProductDetail(props) {
 
     function BuyNowHandler() {
         const checkedList = [];
-        checkedList.push(detail.id);
+        checkedList.push(
+            detail.id
+        );
         console.log(checkedList);
         localStorage.removeItem('checked');
         localStorage.setItem('checked', checkedList);
@@ -166,7 +178,9 @@ function ProductDetail(props) {
             image: detail.image1,
         };
         try {
-            axios.post(cartUrl, newCart);
+
+            axios.post
+                (cartUrl, newCart);
         } catch (err) {
             alert('Có lỗi, xin vui lòng thử lại!');
         }
@@ -175,7 +189,8 @@ function ProductDetail(props) {
     function UpdateProductToCart2(userId, cart) {
         cart.quantity = Number(cart.quantity) + Number(text);
         try {
-            axios.put(`${cartUrl}/${cart.id}`, cart);
+            axios.put(`${cartUrl}/${cart.id
+                }`, cart);
         } catch (err) {
             alert('Có lỗi, xin vui lòng thử lại!');
         }
@@ -291,27 +306,49 @@ function ProductDetail(props) {
                             <div className={feedbacks.length !== 0 ? 'section_title' : 'section_title hiden_btn'}>
                                 Phản hồi của khách hàng
                             </div>
-                            {feedbacks
-                                ? feedbacks.map((feedback, index) => (
-                                      <div className="feedback_row" key={index}>
-                                          <div className="feedback_detail">
-                                              <div className="feedback_detail_header">
-                                                  <div className="feedback_user">{feedback.userName}</div>
-                                                  <div className="feedback_start">
-                                                      <ul className="list-inline mb-2">
-                                                          {_.times(feedback.star, (i) => (
-                                                              <li className="list-inline-item m-0 " key={i}>
-                                                                  <i className="fas fa-star small text-warning"></i>
-                                                              </li>
-                                                          ))}
-                                                      </ul>
-                                                  </div>
-                                              </div>
-                                              <div className="feedback_content">{feedback.contents}</div>
-                                          </div>
-                                      </div>
-                                  ))
-                                : ''}
+                            <List
+                                size="small"
+                                style={{
+                                    background: '#FFFFF',
+                                    justifyContent: 'center',
+                                    display: 'flex',
+                                    paddingTop: '10px',
+                                    borderRadius: '90px',
+                                }}
+                            >
+                                <VirtualList
+                                    style={{ background: '#FFFFF', width: '80%' }}
+                                    data={feedbacks}
+                                    height={400}
+                                    itemHeight={47}
+                                    itemKey="email"
+                                    // onScroll={onScroll}
+                                >
+                                    {(feedback, index) => (
+                                        <div className="feedback_row" key={index} style={{}}>
+                                            <div className="feedback_detail">
+                                                <div className="feedback_detail_header">
+                                                    <div className="feedback_user">{feedback.userName}</div>
+                                                    <div className="feedback_start">
+                                                        <ul className="list-inline mb-2">
+                                                            {_.times(
+                                                                feedback.star,
+
+                                                                (i) => (
+                                                                    <li className="list-inline-item m-0 " key={i}>
+                                                                        <i className="fas fa-star small text-warning"></i>
+                                                                    </li>
+                                                                ),
+                                                            )}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div className="feedback_content">{feedback.contents}</div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </VirtualList>
+                            </List>
                         </div>
                         <div className="related_product">
                             <div className="section_title">Có thể bạn quan tâm</div>
@@ -337,4 +374,4 @@ function ProductDetail(props) {
     );
 }
 
-export default ProductDetail;
+export default ProductDetail; 
