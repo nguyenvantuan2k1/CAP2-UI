@@ -230,7 +230,7 @@ const NewClientHome = () => {
                                 </div>
                                 <div style={{ justifyContent: 'center', display: 'flex' }}>
                                     <h3>Bảo Quyên </h3>
-                                    <h4>(Trùm cuối)</h4>
+                                    {/* <h4>(Trùm cuối)</h4> */}
                                 </div>
                             </Col>
                             <Col span={6}>
@@ -248,7 +248,7 @@ const NewClientHome = () => {
                                 </div>
                                 <div style={{ justifyContent: 'center', display: 'flex' }}>
                                     <h3>Ngọc Thịnh </h3>
-                                    <h4>(Trùm server)</h4>
+                                    {/* <h4>(Trùm server)</h4> */}
                                 </div>
                             </Col>
                             <Col span={6}>
@@ -266,7 +266,7 @@ const NewClientHome = () => {
                                 </div>
                                 <div style={{ justifyContent: 'center', display: 'flex' }}>
                                     <h3>Quang Trung </h3>
-                                    <h4>(FE support)</h4>
+                                    {/* <h4>(FE support)</h4> */}
                                 </div>
                             </Col>
                             <Col span={6}>
@@ -284,7 +284,7 @@ const NewClientHome = () => {
                                 </div>
                                 <div style={{ justifyContent: 'center', display: 'flex' }}>
                                     <h3>Phong </h3>
-                                    <h4>(Master)</h4>
+                                    {/* <h4>(Master)</h4> */}
                                 </div>
                             </Col>
                         </Row>
@@ -310,7 +310,7 @@ const NewClientHome = () => {
                                 </div>
                                 <div style={{ justifyContent: 'center', display: 'flex' }}>
                                     <h3>Tuấn Nguyễn</h3>
-                                    <h4>(FE)</h4>
+                                    {/* <h4>(FE)</h4> */}
                                 </div>
                             </Col>
                         </Row>
