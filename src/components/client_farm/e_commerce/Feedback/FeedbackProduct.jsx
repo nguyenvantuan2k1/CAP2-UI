@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-
+import { Button, Modal, Space } from 'antd';
 import axios from 'axios';
 import '../css/style.css';
 import _ from 'lodash';
@@ -94,65 +94,83 @@ const FeedbackProduct = () => {
             alert('Có lỗi, xin vui lòng thử lại!');
         }
     };
+    const [open, setOpen] = useState(true);
     return (
-        <div className="container">
-            <div className="feedback_wrapper">
-                <div className="feedbackrow feedback_title">Đánh giá sản phẩm</div>
-                <div className="feedbackrow feedback_product">
-                    <img className="feedback_product_img" src={product.image}></img>
-                    <div className="feedback_product_content">
-                        <div className="feedback_product_name">{product.productName}</div>
-                        <div className="feedback_product_quantity">Giá bán: {product.price}</div>
-                        <div className="feedback_product_quantity">x {product.quantity}</div>
-                    </div>
-                    <div className="feedback_product_price">{product.price}Đ</div>
-                </div>
-                <div className="feedbackrow feedback_star">
-                    <span className="feedback_text">Chất lượng sản phẩm</span>
-                    <div className="list-inline list-star">
-                        <div className="star_quantity">
-                            <button className="dec-btn p-0" style={{ cursor: 'pointer' }} onClick={downText}>
-                                <i className="fas fa-caret-left"></i>
-                            </button>
-                            <input className="" type="number" min="1" max="5" value={star} onChange={onChangeText} />
-                            <button className="inc-btn p-0" style={{ cursor: 'pointer' }} onClick={upText}>
-                                <i className="fas fa-caret-right"></i>
-                            </button>
+        // <div className="container">
+            <Modal
+                title={<h1>Đánh giá sản phẩm</h1>}
+                centered
+                open={open}
+                width={1000}
+                okText="Hoàn thành"
+                cancelText="Trở lại"
+                onCancel={()=>{navigate(`/manage/Feedback/${product.orderId}`)}}
+                onOk={handerFeedback}
+            >
+                <div className="feedback_wrapper">
+                    <div className="feedbackrow feedback_product">
+                        <img className="feedback_product_img" src={product.image}></img>
+                        <div className="feedback_product_content">
+                            <div className="feedback_product_name">{product.productName}</div>
+                            <div className="feedback_product_quantity">Giá bán: {product.price}</div>
+                            <div className="feedback_product_quantity">x {product.quantity}</div>
                         </div>
-                        <ul className="star">
-                            {_.times(star, (i) => (
-                                <li className="list-inline-start-big" key={i}>
-                                    <i className="fas fa-star small text-warning"></i>
-                                </li>
-                            ))}
-                        </ul>
-                        <div className="star_text">{text}</div>
+                        <div className="feedback_product_price">{product.price}Đ</div>
                     </div>
-                </div>
-                <div className="feedbackrow">
-                    <div className="feedback_content">
-                        <textarea
-                            name="content"
-                            id=""
-                            cols="50"
-                            rows="10"
-                            className="feedback_content"
-                            placeholder="Hãy chia sẽ những điều bạn thích về sản phẩm này cho những người mua khác nhé"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                        ></textarea>
+                    <Space style={{display:'flex',justifyContent:'space-evenly'}}>
+                        <span style={{fontSize:18}}>Chất lượng sản phẩm</span>
+                        <Space className="list-star">
+                            <div className="star_quantity">
+                                <button className="dec-btn p-0" style={{ cursor: 'pointer' }} onClick={downText}>
+                                    <i className="fas fa-caret-left"></i>
+                                </button>
+                                <input
+                                    className=""
+                                    type="number"
+                                    min="1"
+                                    max="5"
+                                    value={star}
+                                    onChange={onChangeText}
+                                />
+                                <button className="inc-btn p-0" style={{ cursor: 'pointer' }} onClick={upText}>
+                                    <i className="fas fa-caret-right"></i>
+                                </button>
+                            </div>
+                            <ul className="star">
+                                {_.times(star, (i) => (
+                                    <li className="list-inline-start-big" key={i}>
+                                        <i className="fas fa-star small text-warning"></i>
+                                    </li>
+                                ))}
+                            </ul>
+                            <p style={{flexWrap:'nowrap',color:'#FFFF00'}}>{text}</p>
+                        </Space>
+                    </Space>
+                    <div className="feedbackrow">
+                        <div className="feedback_content">
+                            <textarea
+                                name="content"
+                                id=""
+                                cols="50"
+                                rows="10"
+                                className="feedback_content"
+                                placeholder="Hãy chia sẽ những điều bạn thích về sản phẩm này cho những người mua khác nhé"
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                            ></textarea>
+                        </div>
                     </div>
+                    {/* <div className=" btn_right">
+                        <Link to={`/manage/Feedback/${product.orderId}`}>
+                            <button className="btn_white">Trở lại</button>
+                        </Link>
+                        <button className="btn" onClick={}>
+                            Hoàn thành
+                        </button>
+                    </div> */}
                 </div>
-                <div className=" btn_right">
-                    <Link to={`/manage/Feedback/${product.orderId}`}>
-                        <button className="btn_white">Trở lại</button>
-                    </Link>
-                    <button className="btn" onClick={handerFeedback}>
-                        Hoàn thành
-                    </button>
-                </div>
-            </div>
-        </div>
+            </Modal>
+        // </div>
     );
 };
 
